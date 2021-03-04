@@ -12,7 +12,7 @@ public class Account {
 
     private final String username;
 
-    private volatile BigDecimal amount;
+    private BigDecimal amount;
 
 
     public Account(String idCard) {
@@ -29,25 +29,20 @@ public class Account {
             LogUtil.log("this account's username error, transfer failed");
         }
 
-        synchronized (this) {
-            BigDecimal curMoney = this.amount.subtract(transferOut);
-            if (curMoney.compareTo(BigDecimal.ZERO) >= 0) {
-                this.amount = curMoney;
-            } else {
-                LogUtil.log("this account don't have enough money to transfer out, idCard: " + this.idCard);
-            }
+        BigDecimal curMoney = this.amount.subtract(transferOut);
+        if (curMoney.compareTo(BigDecimal.ZERO) >= 0) {
+            this.amount = curMoney;
+        } else {
+            LogUtil.log("this account don't have enough money to transfer out, idCard: " + this.idCard);
         }
-
         return this.amount;
     }
 
     public BigDecimal recharge(String username, BigDecimal money) {
-        synchronized (this) {
-            if (this.username.equalsIgnoreCase(username)) {
-                this.amount = this.amount.add(money);
-            } else {
-                LogUtil.log("this account's username error, recharge failed");
-            }
+        if (this.username.equalsIgnoreCase(username)) {
+            this.amount = this.amount.add(money);
+        } else {
+            LogUtil.log("this account's username error, recharge failed");
         }
         return this.amount;
     }
