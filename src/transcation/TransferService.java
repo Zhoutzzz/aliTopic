@@ -44,10 +44,11 @@ public class TransferService implements TransferOut {
             if (getLock) {
                 outAccountBalance = outAccount.transferAmount(outTransferUser, transferMoney);
                 inAccount.recharge(inTransferUser, transferMoney);
+                LogUtil.log("transfer out success, account: " + outAccount.getIdCard() + ", balance: " + outAccountBalance.toEngineeringString());
             } else {
                 outAccountBalance = outAccount.getAmount();
+                LogUtil.log("transfer out timeout, account: " + outAccount.getIdCard() + ", balance: " + outAccountBalance.toEngineeringString());
             }
-            LogUtil.log("transfer out success, account: " + outAccount.getIdCard() + ", balance: " + outAccountBalance.toEngineeringString());
         } catch (InterruptedException e) {
             LogUtil.log("transfer out failed, account: " + outAccount.getIdCard());
             outAccountBalance = outAccount.getAmount();
