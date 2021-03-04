@@ -34,9 +34,9 @@ public class TransferService implements TransferOut {
     public BigDecimal transferOut(String inTransferUser, String outTransferUser, BigDecimal transferMoney, String requestId) {
 
         Account inAccount = accountService.getAccount(inTransferUser);
-        Objects.requireNonNull(inAccount, "username error");
+        Objects.requireNonNull(inAccount, "inTransferUser error");
         Account outAccount = accountService.getAccount(outTransferUser);
-        Objects.requireNonNull(outAccount, "username error");
+        Objects.requireNonNull(outAccount, "outTransferUser error");
         BigDecimal outAccountBalance;
         boolean getLock = false;
         try {
